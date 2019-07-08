@@ -1,4 +1,4 @@
-# management
+# vueTemplate
 
 > A Vue.js project
 
