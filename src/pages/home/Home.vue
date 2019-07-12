@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="warp">
     {{$store.state.home.show}}
+    <div class="item">123</div>
   </div>
 </template>
 
@@ -22,6 +23,12 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .warp {
+    width: 1200px;
 
+    .item {
+
+    }
+  }
 </style>
