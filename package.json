@@ -10,6 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-language": "^0.10.1",
+    "mapbox-gl": "^1.2.0",
     "node-sass": "^4.11.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
