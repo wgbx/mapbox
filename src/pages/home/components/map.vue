@@ -1,7 +1,6 @@
 <template>
   <div class="map"
        ref="map">
-
   </div>
 </template>
 
@@ -20,6 +19,7 @@
       this.initMap();
       this.setMapLanguage();
       this.threeDMap();
+      this.tripsLayer();
     },
     methods: {
       initMap() {
@@ -70,6 +70,9 @@
             }
           }, labelLayerId);
         });
+      },
+      tripsLayer() {
+
       }
     },
   }
