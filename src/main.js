@@ -7,6 +7,7 @@ import store from './store'
 import './assets/styles/reset.css'
 import './assets/styles/mapbox-gl.css'
 
+window.THREE = require('three');
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
