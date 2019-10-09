@@ -1,6 +1,6 @@
-# vueTemplate
+# Mapbox
 
-> A Vue.js project
+> 基于Mapbox+deckGl的路线可视化方案
 
 ## Build Setup
 
