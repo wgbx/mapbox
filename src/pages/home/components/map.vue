@@ -1,6 +1,5 @@
 <template>
-  <div id="map"
-       @click="getMsg">
+  <div id="map">
 
   </div>
 </template>
@@ -8,6 +7,7 @@
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl'
   import {MapboxLayer} from '@deck.gl/mapbox';
+  import {Deck} from '@deck.gl/core';
   import {TripsLayer} from '@deck.gl/geo-layers';
 
   export default {
@@ -15,7 +15,7 @@
     data() {
       return {
         map: {},
-        time: 500,
+        time: 0,
         _animationFrame: {},
         layer: {},
       }
@@ -23,7 +23,6 @@
     mounted() {
       this.initMap();
       this.addLayer();
-
     },
     methods: {
       initMap() {
@@ -37,35 +36,55 @@
           bearing: -8.800000000000068,
         });
       },
-      getMsg() {
-        // console.log(this.map.getCenter());
-        // console.log(this.map.getZoom());
-        // console.log(this.map.getPitch());
-        // console.log(this.map.getBearing());
-      },
       addLayer() {
-        let layer = new MapboxLayer({
-            id: 'trip',
-            type: TripsLayer,
-            data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/sf.trips.json',
-            getPath: d => d.waypoints.map(p => p.coordinates),
-            getTimestamps: d => d.waypoints.map(p => p.timestamp - 1554772579000),
-            getColor: [253, 128, 93],
-            opacity: 0.8,
-            widthMinPixels: 5,
-            rounded: true,
-            trailLength: 200,
-            currentTime: 100,
-          })
-        ;
-        this.map.on('load', () => {
-          this.map.addLayer(layer, 'country-label');
+        const deck = new Deck({
+          gl: this.map.painter.context.gl,
+          layers: [
+            new TripsLayer({
+              id: 'trips',
+              type: TripsLayer,
+              data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/sf.trips.json',
+              getPath: d => d.waypoints.map(p => p.coordinates),
+              getTimestamps: d => d.waypoints.map(p => p.timestamp - 1554772579000),
+              getColor: [253, 128, 93],
+              opacity: 0.8,
+              widthMinPixels: 5,
+              rounded: true,
+              trailLength: 200,
+              currentTime: this.time,
+            })
+          ]
         });
+        this.map.on('load', () => {
+          this.map.addLayer(new MapboxLayer({id: 'trips', deck}))
+        });
+        this.layer = deck;
+        this.animate()
       },
       animate() {
-        // layer.setProps({
-        //   radiusScale: 2
-        // });
+        const loopLength = 1800;
+        const animationSpeed = 30;
+        const timestamp = Date.now() / 1000;
+        const loopTime = loopLength / animationSpeed;
+        this.time = ((timestamp % loopTime) / loopTime) * loopLength;
+        window.requestAnimationFrame(this.animate);
+        this.layer.setProps({
+          layers: [
+            new TripsLayer({
+              id: 'trips',
+              type: TripsLayer,
+              data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/sf.trips.json',
+              getPath: d => d.waypoints.map(p => p.coordinates),
+              getTimestamps: d => d.waypoints.map(p => p.timestamp - 1554772579000),
+              getColor: [253, 128, 93],
+              opacity: 0.8,
+              widthMinPixels: 5,
+              rounded: true,
+              trailLength: 200,
+              currentTime: this.time,
+            })
+          ]
+        });
       }
     }
   }
