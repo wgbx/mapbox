@@ -7,7 +7,6 @@
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl'
   import {MapboxLayer} from '@deck.gl/mapbox';
-  import {Deck} from '@deck.gl/core';
   import {TripsLayer} from '@deck.gl/geo-layers';
 
   export default {
@@ -24,6 +23,9 @@
       this.initMap();
       this.addLayer();
     },
+    destroyed() {
+      window.cancelAnimationFrame(this.animate);
+    },
     methods: {
       initMap() {
         mapboxgl.accessToken = 'pk.eyJ1IjoiZXZvbGxlcnMiLCJhIjoiY2p5dGV3M2RwMDNlcDNub2E4a2tsejBzcSJ9.qzdwDmfnX-gH68U77Sxzlg';
@@ -37,28 +39,22 @@
         });
       },
       addLayer() {
-        const deck = new Deck({
-          gl: this.map.painter.context.gl,
-          layers: [
-            new TripsLayer({
-              id: 'trips',
-              type: TripsLayer,
-              data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/sf.trips.json',
-              getPath: d => d.waypoints.map(p => p.coordinates),
-              getTimestamps: d => d.waypoints.map(p => p.timestamp - 1554772579000),
-              getColor: [253, 128, 93],
-              opacity: 0.8,
-              widthMinPixels: 5,
-              rounded: true,
-              trailLength: 200,
-              currentTime: this.time,
-            })
-          ]
+        this.layer = new MapboxLayer({
+          id: 'trip',
+          type: TripsLayer,
+          data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/sf.trips.json',
+          getPath: d => d.waypoints.map(p => p.coordinates),
+          getTimestamps: d => d.waypoints.map(p => p.timestamp - 1554772579000),
+          getColor: [253, 128, 93],
+          opacity: 0.8,
+          widthMinPixels: 5,
+          rounded: true,
+          trailLength: 200,
+          currentTime: this.time,
         });
         this.map.on('load', () => {
-          this.map.addLayer(new MapboxLayer({id: 'trips', deck}))
+          this.map.addLayer(this.layer, 'country-label');
         });
-        this.layer = deck;
         this.animate()
       },
       animate() {
@@ -69,21 +65,7 @@
         this.time = ((timestamp % loopTime) / loopTime) * loopLength;
         window.requestAnimationFrame(this.animate);
         this.layer.setProps({
-          layers: [
-            new TripsLayer({
-              id: 'trips',
-              type: TripsLayer,
-              data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/sf.trips.json',
-              getPath: d => d.waypoints.map(p => p.coordinates),
-              getTimestamps: d => d.waypoints.map(p => p.timestamp - 1554772579000),
-              getColor: [253, 128, 93],
-              opacity: 0.8,
-              widthMinPixels: 5,
-              rounded: true,
-              trailLength: 200,
-              currentTime: this.time,
-            })
-          ]
+          currentTime: this.time,
         });
       }
     }
