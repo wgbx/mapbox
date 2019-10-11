@@ -32,24 +32,24 @@
         this.map = new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/evollers/cjzhx2vaf35ix1cp9d7inydoc',
-          center: [-122.39082124283146, 37.686625269494385],
-          zoom: 10.711743240066886,
-          pitch: 0,
-          bearing: -8.800000000000068,
+          center: [-74, 40.72],
+          zoom: 13,
+          pitch: 45,
+          bearing: 0
         });
       },
       addLayer() {
         this.layer = new MapboxLayer({
           id: 'trip',
           type: TripsLayer,
-          data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/website/sf.trips.json',
-          getPath: d => d.waypoints.map(p => p.coordinates),
-          getTimestamps: d => d.waypoints.map(p => p.timestamp - 1554772579000),
-          getColor: [253, 128, 93],
-          opacity: 0.8,
-          widthMinPixels: 5,
+          data: 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/trips/trips-v7.json',
+          getPath: d => d.path,
+          getTimestamps: d => d.timestamps,
+          getColor: d => (d.vendor === 0 ? [253, 128, 93]: [23, 184, 190]),
+          opacity: 0.3,
+          widthMinPixels: 3,
           rounded: true,
-          trailLength: 200,
+          trailLength: 180,
           currentTime: this.time,
         });
         this.map.on('load', () => {
@@ -63,6 +63,7 @@
         const timestamp = Date.now() / 1000;
         const loopTime = loopLength / animationSpeed;
         this.time = ((timestamp % loopTime) / loopTime) * loopLength;
+        console.log(this.time);
         window.requestAnimationFrame(this.animate);
         this.layer.setProps({
           currentTime: this.time,
