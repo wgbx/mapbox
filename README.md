@@ -1,21 +1,23 @@
-# Mapbox
+# <p align = "center"> 基于Mapbox+deckGl的路线可视化方案</p>
 
-> 基于Mapbox+deckGl的路线可视化方案
+## 运行方式
 
-## Build Setup
-
-``` bash
-# install dependencies
+``` 
 npm install
 
-# serve with hot reload at localhost:8080
 npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 技术栈
+
+[mapbox](https://www.mapbox.com/)，[deck.gl](https://deck.gl/#/)
+
+[threejs](https://threejs.org/)，[threejs](https://threejs.org/)，[obj2gltf](https://github.com/AnalyticalGraphicsInc/obj2gltf)，[gltf-pipeline](https://github.com/AnalyticalGraphicsInc/gltf-pipeline)，[draco](https://google.github.io/draco/) 
+
+感谢以上开源库的帮助
+
+## 效果展示
+![效果图](https://github.com/wgbx/mapbox/blob/master/md/home.png)
+
+代码更新中。。
+
