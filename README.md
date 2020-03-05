@@ -17,7 +17,7 @@ npm run dev
 感谢以上开源库的帮助
 
 ## 效果展示
-![效果图](https://github.com/wgbx/mapbox/blob/master/md/home.png)
+![效果图](https://gitee.com/wgbx/resources/raw/master/mapbox/home.png)
 
 代码更新中。。
 
