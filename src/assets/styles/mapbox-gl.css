@@ -39,6 +39,7 @@
   touch-action: none;
 }
 .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right, .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right {
+  display: none;
   position: absolute;
   pointer-events: none;
   z-index: 2;
