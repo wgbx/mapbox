@@ -10,8 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "deck.gl": "7.2.6",
     "mapbox-gl": "^1.8.1",
-    "node-sass": "^4.11.0",
+    "three": "0.108.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
